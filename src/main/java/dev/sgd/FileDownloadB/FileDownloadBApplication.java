@@ -33,6 +33,19 @@ public class FileDownloadBApplication {
 				.body(image);
 	}
 
+	@PostMapping("/fileSystem")
+	public ResponseEntity<?> uploadImageToFileSystem(@RequestParam("image")MultipartFile file) throws IOException {
+		String uploadImageResponse = service.uploadImageToFileSystem(file);
+		return ResponseEntity.status(HttpStatus.OK).body(uploadImageResponse);
+	}
+
+	@GetMapping("/fileSystem/{fileName}")
+	public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable String fileName) throws IOException {
+		byte[] image = service.downloadImageFromFileSystem(fileName);
+		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png"))
+				.body(image);
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(FileDownloadBApplication.class, args);
 	}
